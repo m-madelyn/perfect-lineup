@@ -1,33 +1,44 @@
 function calculateTotalSalary(lineup) {
-  return 0
+  return lineup.reduce((total, player) => {
+      return total + player.salary
+  }, 0)
 }
 
 function getPositionCounts(lineup) {
-  return {}
+  return lineup.reduce((table, player) => {
+      if (!table[player.position]) {
+          table[player.position] = 0
+
+      }
+      table[player.position] = table[player.position] + 1
+      return table
+  }, {})
 }
 
 function getGameCounts(lineup) {
   return lineup.reduce((games, player) => {
-    games[player.gameId] = games[player.gameId] === undefined ? 1 : games[player.gameId] + 1
-    return games
+      games[player.gameId] = games[player.gameId] === undefined ? 1 : games[player.gameId] + 1
+      return games
   }, {})
 }
 
 function getTeamCounts(lineup) {
   return lineup.reduce((teams, player) => {
-    teams[player.teamId] = teams[player.teamId] === undefined ? 1 : teams[player.teamId] + 1
-    return teams
+      teams[player.teamId] = teams[player.teamId] === undefined ? 1 : teams[player.teamId] + 1
+      return teams
   }, {})
 }
 
 function violatesGameCount(games) {
-  return Object.values(games).some((count) => { return count > 3 })
+  return Object.values(games).some((count) => {
+      return count > 3
+  })
 }
 
 function violatesPositionCount(positions) {
   return positions['P'] !== 1 || positions['C'] !== 1 || positions['1B'] !== 1 ||
-    positions['2B'] !== 1 || positions['3B'] !== 1 || positions['SS'] !== 1 ||
-    positions['OF'] !== 3
+      positions['2B'] !== 1 || positions['3B'] !== 1 || positions['SS'] !== 1 ||
+      positions['OF'] !== 3
 }
 
 function violatesSalary(lineup) {
@@ -35,7 +46,9 @@ function violatesSalary(lineup) {
 }
 
 function violatesTeamCount(teams) {
-  return Object.values(teams).some((count) => { return count > 2 })
+  return Object.values(teams).some((count) => {
+      return count > 2
+  })
 }
 
 function validateLineup(lineup) {
@@ -44,7 +57,7 @@ function validateLineup(lineup) {
   const positionCounts = getPositionCounts(lineup)
 
   return !violatesGameCount(gameCounts) && !violatesSalary(lineup) &&
-    !violatesTeamCount(teamCounts) && !violatesPositionCount(positionCounts)
+      !violatesTeamCount(teamCounts) && !violatesPositionCount(positionCounts)
 }
 
 module.exports = {
